@@ -3,7 +3,7 @@
 #include <iostream>
 #include <memory>
 
-namespace SimpleUsage {
+namespace SimpleUsage { 
 	namespace Raw {
 		void Main() {
 			Document* p = new Document{};
@@ -23,7 +23,7 @@ namespace SimpleUsage {
 	}
 }
 
-namespace Sharing {
+namespace Sharing { 
 	namespace Raw {
 		class View 
 		{
@@ -95,12 +95,40 @@ namespace Sharing {
 		}
 	}
 }
+
+namespace ReturnType {
+	namespace Raw {
+		Document* NewDocument(const std::string& title)
+		{
+			if(title.empty())
+			{
+				return nullptr;
+			}
+			return new Document{title};
+		}
+
+		void Main()
+		{
+			Document* p = NewDocument("Note");
+			if(!p)
+			{
+				std::cout << "The Document creation failed.\n";
+				return;
+			}
+			p->AddContent("This is something great.");
+			std::cout << *p << "\n";
+			delete p;
+		}
+	}
+}
 int main()
 {
 	// SimpleUsage::Raw::Main();
 	// SimpleUsage::SmartPointer::Main();
 	
 	// Sharing::Raw::Main();
-	Sharing::SmartPointer::Main();
+	// Sharing::SmartPointer::Main();
+
+	ReturnType::Raw::Main();
 	return 0;
 }
